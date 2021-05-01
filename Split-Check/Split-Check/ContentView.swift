@@ -14,6 +14,14 @@ struct ContentView: View {
     
     let tipPercentages = [10, 15, 20, 25, 0]
     
+    var splitAmount: Double {
+        let peopleCount = Double(numberOfPeople + 2)
+        let tipSelection = Double(tipPercentages[tipPercentage])
+        let amount = Double(checkAmount) ?? 0
+        
+        return amount * (100 + tipSelection) / (100 * peopleCount)
+    }
+    
     var body: some View {
         NavigationView {
             Form {
@@ -37,8 +45,9 @@ struct ContentView: View {
                     .pickerStyle(SegmentedPickerStyle())
                 }
                 
+                // Formula: checkAmount x (100+percentage)/100 / numberOfPeople
                 Section {
-                    Text("$\(checkAmount)")
+                    Text("$\(splitAmount, specifier: "%.2f")")
                 }
             }
             .navigationBarTitle("Check Split")
